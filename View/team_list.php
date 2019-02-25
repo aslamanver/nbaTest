@@ -37,6 +37,7 @@
         <?php foreach ($teams as $team) : ?>
         <tr>
             <td><?php echo $team['categoryName']; ?></td>
+            <td><img src="/images/<?php echo $team['imgName']; ?>" style="width:50px"></td>
             <td>
                 <form action="delete_team.php" method="post"
                       id="delete_product_form">
@@ -53,20 +54,20 @@
 
 
     <h2 id="add_category_h2">Add Team</h2>
-    <form action="add_team.php" method="post"
-          id="add_category_form">
+    <form action="add_team.php" method="post" enctype="multipart/form-data" id="add_category_form">
 
         <label>Name:</label>
-        <input type="input" name="name">
+        <input type="text" name="team_name">
+        <input type="file" name="image" id="image">
         <input id="add_category_button" type="submit" value="Add">
     </form>
 
-    <form action="" method="post" enctype="multipart/form-data">
+    <!-- <form action="add_team.php" method="post" enctype="multipart/form-data">
     Select image to upload:
     <input type="file" name="image" id="image">
     <input type="text" name="team_name" id="team_name">
     <input type="submit" value="Submit" name="submit">
-    </form>
+    </form> -->
 
     <br>
     <p><a href="../index.php">View Team List</a></p>

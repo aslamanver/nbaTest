@@ -1,7 +1,7 @@
 <?php
 
 // Get the team data
-$name = filter_input(INPUT_POST, 'name');
+$name = filter_input(INPUT_POST, 'team_name');
 
 // Validate inputs
 if ($name == null) {
@@ -20,7 +20,6 @@ if ($name == null) {
     $filename = basename( $_FILES['image']['name']);
     $team_name = $_POST['team_name'];
 
-
     // Write the file name to the server
     if(move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
 
@@ -28,27 +27,32 @@ if ($name == null) {
     echo "The file ". basename( $_FILES['image']['name']). " has been uploaded, and your information has been added to the directory";
 
     // Connects to your Database
-    mysql_connect("renwid", "password") or die(mysql_error()) ;
-    mysql_select_db("nba") or die(mysql_error()) ;
+    $sql = "INSERT INTO categories (categoryName, img, imgName) VALUES ('$team_name', '$filename', '$filename')";
+    $conn = new mysqli('localhost', $username, $password, 'nba');
+    if ($conn->query($sql) === TRUE) {
+       
+        header("location: team_list.php");
 
-    //Writes the information to the database
-    mysql_query("INSERT INTO categories (img, team_name)
-    VALUES ('$filename', '$team_name')") ;
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 
-} else {
-    //Gives and error if its not
-    echo "Sorry, there was a problem uploading your file.";
-}
-    // Add the product to the database
-    $query = 'INSERT INTO categories (categoryName)
-              VALUES (:team_name)';
 
-    $query = "INSERT INTO categories (image) VALUES ('$fileName', '$content')";
+    } else {
+        //Gives and error if its not
+        echo "Sorry, there was a problem uploading your file.";
+    }
 
-    $statement = $db->prepare($query);
-    $statement->bindValue(':team_name', $name);
-    $statement->execute();
-    $statement->closeCursor();
+    // // Add the product to the database
+    // $query = 'INSERT INTO categories (categoryName)
+    //           VALUES (:team_name)';
+
+    // $query = "INSERT INTO categories (image) VALUES ('$fileName', '$content')";
+
+    // $statement = $db->prepare($query);
+    // $statement->bindValue(':team_name', $name);
+    // $statement->execute();
+    // $statement->closeCursor();
 
 }
 ?>
